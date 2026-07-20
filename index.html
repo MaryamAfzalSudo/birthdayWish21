@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>For You 🤍</title>
+
+<!-- ============================================================
+     FONTS
+     Elegant script : Alex Brush   (big flowing titles — "A Love Letter",
+                       "Gifts Just For You", "Happy Birthday")
+     Body serif     : Cormorant Garamond / EB Garamond (letters)
+     Handwritten    : Caveat  (small decorative / captions / signatures)
+============================================================ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Caveat:wght@500;600;700&family=Dancing+Script:wght@500;600;700&family=Alex+Brush&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- =========================================================
+     PAPER GRAIN + AMBIENT SPARKLE / BUTTERFLY LAYERS
+     (populated by JS, sit above everything, ignore pointer)
+========================================================= -->
+<div class="grain-overlay" aria-hidden="true"></div>
+<div class="sparkle-layer" id="sparkleLayer" aria-hidden="true"></div>
+<div class="butterfly-layer" id="butterflyLayer" aria-hidden="true"></div>
+
+<!-- Optional looping background music. Only appears/plays if you set
+     BACKGROUND_MUSIC_SRC in js/script.js — otherwise this stays silent
+     and hidden. A little magical chime always plays on "lights on"
+     regardless, using no audio file at all. -->
+<audio id="bgMusic" loop preload="none"></audio>
+<button id="btnMuteToggle" class="btn-mute-toggle" hidden aria-label="Toggle music">🔊</button>
+
+<!-- =========================================================
+     SCENE 1 — DARKNESS
+========================================================= -->
+<section id="scene-dark" class="scene scene-dark">
+  <div class="dark-vignette"></div>
+
+  <div class="lamp-wrap" id="lampWrap">
+    <div class="lamp-glow" id="lampGlow"></div>
+    <svg class="lamp-svg" viewBox="0 0 120 160" aria-hidden="true">
+      <!-- simple candle -->
+      <ellipse cx="60" cy="150" rx="26" ry="6" fill="#000" opacity="0.25"/>
+      <rect x="46" y="90" width="28" height="60" rx="6" fill="#f3e6d3"/>
+      <rect x="46" y="90" width="28" height="60" rx="6" fill="url(#waxShade)"/>
+      <path id="flame" d="M60 40 C 68 55, 74 66, 60 82 C 46 66, 52 55, 60 40 Z" fill="url(#flameGrad)"/>
+      <defs>
+        <radialGradient id="flameGrad" cx="50%" cy="70%" r="70%">
+          <stop offset="0%" stop-color="#fff6d8"/>
+          <stop offset="45%" stop-color="#ffd27a"/>
+          <stop offset="100%" stop-color="#e8823a"/>
+        </radialGradient>
+        <linearGradient id="waxShade" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#000" stop-opacity="0.08"/>
+          <stop offset="50%" stop-color="#000" stop-opacity="0"/>
+          <stop offset="100%" stop-color="#000" stop-opacity="0.12"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+
+  <div class="dark-text-wrap">
+    <p class="dark-line" id="darkLine1">I made something for you&hellip;</p>
+    <p class="dark-line" id="darkLine2">I hope you like it.</p>
+    <p class="dark-caption" id="darkCaption">It&rsquo;s a little dark in here&hellip;</p>
+    <button class="btn-lights" id="btnLights" aria-label="Turn on the lights">
+      <span class="sparkle-emoji">✨</span> Turn on the lights
+    </button>
+  </div>
+</section>
+
+<!-- =========================================================
+     SCENE 2 — PASSWORD LOCKBOX
+========================================================= -->
+<section id="scene-password" class="scene scene-password" hidden>
+  <div class="password-card" id="passwordCard">
+    <div class="card-ribbon">🔒</div>
+    <h2 class="password-title">Enter Password</h2>
+    <p class="password-sub">Only the birthday girl knows the password.</p>
+
+    <form id="passwordForm" class="password-form" autocomplete="off">
+      <input
+        type="password"
+        inputmode="numeric"
+        id="passwordInput"
+        class="password-input"
+        placeholder="• • • •"
+        aria-label="Enter password"
+      />
+      <button type="submit" class="btn-unlock">Unlock 🩷</button>
+    </form>
+
+    <p class="password-feedback" id="passwordFeedback">&nbsp;</p>
+  </div>
+</section>
+
+<!-- =========================================================
+     MAIN CONTENT (revealed after unlock, becomes scrollable)
+========================================================= -->
+<main id="mainContent" class="main-content" hidden>
+
+  <!-- ============ SCENE 3 — WELCOME LETTER "A Love Letter" (no envelope) ============ -->
+  <section id="scene-welcome" class="scene scene-welcome">
+    <div class="love-letter-page">
+
+      <div class="corner-photos" id="welcomePhotos">
+        <!-- 4 scattered/taped corner polaroids injected by JS from WELCOME_PHOTOS -->
+      </div>
+
+      <span class="page-butterfly" aria-hidden="true">🦋</span>
+
+      <article class="love-letter-card" id="letterPaper">
+        <p class="only-for-tag">21-july-2026 &#9825;</p>
+        <h1 class="love-letter-title">For Atika</h1>
+        <p class="salutation">My Dearest,</p>
+
+        <div class="letter-body" id="letterBody">
+          <!-- Typewriter text is injected here by JS using WELCOME_LETTER_TEXT.
+               ================================================================
+               EDIT YOUR MESSAGE INSIDE js/script.js  →  WELCOME_LETTER_TEXT
+               ================================================================ -->
+        </div>
+
+        <p class="letter-signature">&mdash; From Maryam &#9825;</p>
+      </article>
+
+      <button class="btn-continue" id="btnScrollDown">
+        &#10024; scroll for more &#10024;
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ SCENE 4 — MEMORY HUB ("Gifts Just For You" style) ============ -->
+  <section id="scene-hub" class="scene scene-hub">
+    <h2 class="hub-title">Gifts Just For You</h2>
+    
+
+    <div class="hub-grid">
+      <button class="hub-item" id="cardMemories" data-target="memories">
+        <span class="hub-icon-circle"><span class="hub-icon" aria-hidden="true">📷</span></span>
+        <span class="hub-item-label">Memories</span>
+        <span class="hub-item-sub">a little photo box</span>
+      </button>
+
+      <button class="hub-item" id="cardSong" data-target="song">
+        <span class="hub-icon-circle"><span class="hub-icon" aria-hidden="true">🎵</span></span>
+        <span class="hub-item-label">A Song For You</span>
+        <span class="hub-item-sub">press play &#9834;</span>
+      </button>
+
+      <button class="hub-item" id="cardLetter" data-target="finalletter">
+        <span class="hub-icon-circle"><span class="hub-icon" aria-hidden="true">💌</span></span>
+        <span class="hub-item-label">One More Thing&hellip;</span>
+     
+      </button>
+    </div>
+  </section>
+
+</main>
+
+<!-- =========================================================
+     SCENE 5 — MEMORIES GALLERY (full-screen overlay)
+========================================================= -->
+<section id="overlay-memories" class="overlay overlay-memories" hidden>
+  <button class="overlay-close" data-close="memories" aria-label="Close">✕</button>
+  <div class="overlay-scroll">
+    <h2 class="overlay-title">Your Pictures in my gallery</h2>
+    
+    <div class="scrapbook-grid" id="scrapbookGrid">
+      <!-- polaroid photo items injected by JS from PHOTO_CAPTIONS -->
+    </div>
+  </div>
+</section>
+
+<!-- lightbox for enlarged photo -->
+<div class="lightbox" id="lightbox" hidden>
+  <div class="lightbox-backdrop" id="lightboxBackdrop"></div>
+  <figure class="lightbox-figure">
+    <img src="" alt="" id="lightboxImg"/>
+    <figcaption id="lightboxCaption"></figcaption>
+  </figure>
+</div>
+
+<!-- =========================================================
+     SCENE 6 — SONG (full-screen overlay)
+========================================================= -->
+<section id="overlay-song" class="overlay overlay-song" hidden>
+  <button class="overlay-close" data-close="song" aria-label="Close">✕</button>
+  <div class="song-inner">
+
+    <div class="song-text-col">
+      <h3 class="song-script-title">DarkSide by album Neoni</h3>
+      <p class="song-paragraph" id="songParagraph">
+        <!-- Paragraph text injected by JS using SONG_MESSAGE_TEXT.
+             EDIT IN js/script.js → SONG_MESSAGE_TEXT -->
+      </p>
+      <a href="#" target="_blank" rel="noopener" class="btn-spotify" id="btnSpotify">
+        <svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="12" fill="#1DB954"/><path fill="#0b3d1f" d="M17.2 16.1c-.2.3-.6.4-.9.2-2.5-1.5-5.6-1.9-9.3-1-.4.1-.7-.1-.8-.5-.1-.4.1-.7.5-.8 4-.9 7.5-.5 10.3 1.2.3.2.4.6.2.9zm1.2-2.7c-.3.4-.8.5-1.1.3-2.9-1.8-7.3-2.3-10.7-1.2-.4.1-.9-.1-1-.5-.1-.4.1-.9.5-1 3.9-1.2 8.7-.6 12 1.4.4.2.5.7.3 1zm.1-2.8C15 8.7 9.3 8.5 6 9.5c-.5.1-1-.2-1.1-.7-.1-.5.2-1 .7-1.1 3.8-1.1 10.1-.9 14.1 1.5.5.3.6.9.3 1.4-.3.4-.9.6-1.4.3z"/></svg>
+        Play on Spotify
+      </a>
+    </div>
+
+    <div class="song-photo-col" id="songPhotoCol">
+      <div class="vinyl-wrap">
+        <div class="vinyl" id="vinyl"></div>
+        <div class="vinyl-arm"></div>
+      </div>
+      <img src="" alt="A memory" class="song-photo song-photo-1" id="songPhoto1" />
+      <img src="" alt="A memory" class="song-photo song-photo-2" id="songPhoto2" />
+      <p class="click-me-tag">click me<span class="click-me-arrow">↷</span></p>
+    </div>
+
+  </div>
+</section>
+
+<!-- =========================================================
+     SCENE 7 — FINAL LETTER (full-screen overlay)
+========================================================= -->
+<section id="overlay-finalletter" class="overlay overlay-final" hidden>
+  <button class="overlay-close" data-close="finalletter" aria-label="Close">✕</button>
+  <div class="floating-hearts" id="floatingHearts" aria-hidden="true"></div>
+
+  <div class="love-letter-page final-page">
+
+    <div class="corner-photos" id="finalPhotos">
+      <!-- 4 scattered/taped corner polaroids injected by JS from FINAL_PHOTOS -->
+    </div>
+
+    <span class="page-butterfly" aria-hidden="true">🦋</span>
+
+    <article class="love-letter-card" id="finalLetterPaper">
+      
+      <h1 class="love-letter-title">One More Thing&hellip;</h1>
+
+      <div class="letter-body" id="finalLetterBody">
+        <!-- Typewriter text injected by JS using FINAL_LETTER_TEXT.
+             ================================================================
+             EDIT YOUR MESSAGE INSIDE js/script.js  →  FINAL_LETTER_TEXT
+             ================================================================ -->
+      </div>
+
+      <p class="letter-signature">Your Maryam &#9825;</p>
+
+      <div class="happy-birthday-reveal" id="happyBirthdayReveal">
+        <h2 class="happy-birthday-text">Happy Birthday</h2>
+        <span class="happy-birthday-heart">&#10084;</span>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<script src="js/script.js"></script>
+</body>
+</html>
